@@ -34,6 +34,22 @@ public static class AudioUtility
 		yield break;
 	}
 
+	public static IEnumerator FadeOutAndStopAudioSource(AudioSource audioSource, float duration)
+	{
+		float currentTime = 0;
+		float startVolume = audioSource.volume;
+
+		while (currentTime < duration)
+		{
+			currentTime += Time.deltaTime;
+			audioSource.volume = Mathf.Lerp(startVolume, 0, currentTime / duration);
+
+			yield return null;
+		}
+		audioSource.Stop();
+		yield break;
+	}
+
 	public static IEnumerator CrossfadeAudioSources(AudioSource audioSourceIn, float targetVolumeIn, AudioSource audioSourceOut, float duration)
 	{
 		float currentTime = 0;
