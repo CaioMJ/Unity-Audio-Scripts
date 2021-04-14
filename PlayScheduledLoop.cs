@@ -6,7 +6,7 @@ public class PlayScheduledLoop : MonoBehaviour
 {
     [SerializeField] private AudioSource[] audioSource; //array with 2 audio sources
 
-    private double loopDuration; //This variable should hold the exact value in seconds that the loop should last
+    private double loopDuration; //This variable should hold the exact value in seconds to the smalles possible decimal that the loop should last for
     private double nextLoopStart;
 
     private bool canGetDspTime = true;
