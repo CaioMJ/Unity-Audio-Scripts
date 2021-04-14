@@ -27,7 +27,7 @@ public class PlayScheduledLoop : MonoBehaviour
         }
     }
 
-    private void StartLoop()
+    private void StartLoop() //Call this function to start the music
     {
         isLooping = true;
         print(isLooping);
