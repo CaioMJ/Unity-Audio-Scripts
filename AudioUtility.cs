@@ -4,6 +4,22 @@ using UnityEngine;
 
 public static class AudioUtility
 {
+	public static IEnumerator PlayAndFadeInAudioSource(AudioSource audioSource, float duration, float targetVolume)
+	{
+		audioSource.volume = 0;
+		float currentTime = 0;
+		audioSource.Play();
+		
+		while (currentTime < duration)
+		{
+			currentTime += Time.deltaTime;
+			audioSource.volume = Mathf.Lerp(0, targetVolume, currentTime / duration);
+
+			yield return null;
+		}
+		yield break;
+	}	
+	
 	public static IEnumerator FadeInAudioSource(AudioSource audioSource, float duration, float targetVolume)
 	{
 		audioSource.volume = 0;
@@ -64,6 +80,25 @@ public static class AudioUtility
 
 			yield return null;
 		}
+		yield break;
+	}
+	
+	public static IEnumerator CrossfadeAudioSources(AudioSource audioSourceIn, float targetVolumeIn, AudioSource audioSourceOut, float duration)
+	{
+		float currentTime = 0;
+		float startVolumeOut = audioSourceOut.volume;
+		audioSourceIn.volume = 0;
+		audioSourceIn.Play();
+
+		while (currentTime < duration)
+		{
+			currentTime += Time.deltaTime;
+			audioSourceOut.volume = Mathf.Lerp(startVolumeOut, 0, currentTime / duration);
+			audioSourceIn.volume = Mathf.Lerp(0, targetVolumeIn, currentTime / duration);
+
+			yield return null;
+		}
+		audioSourceOut.Stop();
 		yield break;
 	}
 
