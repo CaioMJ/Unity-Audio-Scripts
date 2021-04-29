@@ -83,7 +83,7 @@ public static class AudioUtility
 		yield break;
 	}
 	
-	public static IEnumerator CrossfadeAudioSources(AudioSource audioSourceIn, float targetVolumeIn, AudioSource audioSourceOut, float duration)
+	public static IEnumerator CrossfadeAudioSourcesWithPlayAndStop(AudioSource audioSourceIn, float targetVolumeIn, AudioSource audioSourceOut, float duration)
 	{
 		float currentTime = 0;
 		float startVolumeOut = audioSourceOut.volume;
