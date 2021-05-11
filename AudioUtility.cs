@@ -125,10 +125,10 @@ public static class AudioUtility
 
 	public static void PlayOneShotWithRandomization(AudioSource audioSource, AudioClip audioClip,
 		float minVolume, float maxVolume, float minPitch, float maxPitch)
-    {
+  	{
 		audioSource.pitch = Random.Range(minPitch, maxPitch);
 		audioSource.PlayOneShot(audioClip, Random.Range(minVolume, maxVolume));
-    }
+    	}
 
 	public static void PlayOneShotWithRandomization(AudioSource audioSource, AudioClip[] audioClipArray,
 	float minVolume, float maxVolume, float minPitch, float maxPitch)
