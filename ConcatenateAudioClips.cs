@@ -4,21 +4,31 @@ using UnityEngine;
 
 public class ConcatenateAudioClips : MonoBehaviour
 {
-    //This is current only set up to work using audioClips[0] as reference for length between concatenations, not accounting for 
-    //difference in lenghts between clips if you desire a more dynamic, sample accurate concatenation method
-    
+    [Header("AUDIO REFERENCES")]
     [SerializeField] private AudioClip[] audioClips;
     [SerializeField] private AudioSource[] audioSource;
-    private int randomIndex;
-    private int lastRandomIndex;
+    [Space]
+    [Header("CONCATENATION PROPERTIES")]
+    [SerializeField] private bool playClipsRandomly;
+    [SerializeField] private bool getLengthDynamically;
+    private int index, lastIndex;
     private int toggle;
-    private double clipLength;
-    private double nextStartTime;
+
+    private double clipLength, nextStartTime;
     
     // Start is called before the first frame update
     void Start()
     {
-        clipLength = (double)audioClips[0].samples / audioClips[0].frequency;
+        if (playClipsRandomly)
+            index = Random.Range(0, audioClips.Length);
+        else
+            index = 0;
+
+        if(getLengthDynamically)
+            clipLength = (double)audioClips[index].samples / audioClips[index].frequency;
+        else
+            clipLength = (double)audioClips[0].samples / audioClips[0].frequency;
+
         nextStartTime = AudioSettings.dspTime + 1;
     }
 
@@ -27,24 +37,47 @@ public class ConcatenateAudioClips : MonoBehaviour
     {
         if(AudioSettings.dspTime > nextStartTime - 1)
         {
-            ConcatenateClipsRandomly();
+            ConcatenateClips();
         }
     }
 
-    private void ConcatenateClipsRandomly()
+    private void ConcatenateClips()
     {
         toggle = 1 - toggle;
-
-        while (randomIndex == lastRandomIndex)
-        {
-            randomIndex = Random.Range(0, audioClips.Length);
-        }
-        lastRandomIndex = randomIndex;
-
-        audioSource[toggle].clip = audioClips[randomIndex];
+        audioSource[toggle].clip = audioClips[index];
         audioSource[toggle].PlayScheduled(nextStartTime);
 
+        if (getLengthDynamically)
+        {
+            GetNewClipLength();
+        }
         nextStartTime += clipLength;
-        print(audioClips[randomIndex]);
+
+        if (playClipsRandomly)
+            RandomIndex();
+        else
+            SequentialIndex();
+    }
+
+    private void RandomIndex()
+    {
+        while (index == lastIndex)
+        {
+            index = Random.Range(0, audioClips.Length);
+        }
+        lastIndex = index;
+    }
+
+    private void SequentialIndex()
+    {
+        if (index != audioClips.Length - 1)
+            index++;
+        else
+            index = 0;
+    }
+
+    private void GetNewClipLength()
+    {
+        clipLength = (double)audioClips[index].samples / audioClips[index].frequency;
     }
 }
