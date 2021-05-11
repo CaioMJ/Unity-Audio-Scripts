@@ -6,7 +6,7 @@ public class PlayScheduledLoop : MonoBehaviour
 {
     [SerializeField] private AudioSource[] audioSource; //array with 2 audio sources
 
-    private double loopDuration; //This variable should hold the exact value in seconds to the smalles possible decimal that the loop should last for
+    private double loopDuration; //This variable should hold the exact value in seconds (to the smallest possible decimal)for the loop's duration
     private double nextLoopStart;
 
     private bool canGetDspTime = true;
@@ -27,12 +27,19 @@ public class PlayScheduledLoop : MonoBehaviour
         }
     }
 
-    private void StartLoop() //Call this function to play audio
+    public void StartLoop() //Call this function to play audio
     {
         isLooping = true;
-        print(isLooping);
+        print("START PLAY SCHEDULED LOOP");
     }
-
+    
+    public void StopLoop() //This will only stop subsequent loops from hapenning, this won't immediately stop audio
+    {
+        isLooping = false;
+        canGetDspTime = true;
+        //INSERT FADE OUT OR AUDIO SOURCE STOP METHODD HERE IF NEEDED
+    }
+    
     private void GetCurrentDspTime()
     {
         if (canGetDspTime)
@@ -48,6 +55,6 @@ public class PlayScheduledLoop : MonoBehaviour
 
         audioSource[arrayToggle].PlayScheduled(nextLoopStart);
         nextLoopStart += loopDuration;
-        print("LOOP");
+        print("LOOP POINT");
     }
 }
