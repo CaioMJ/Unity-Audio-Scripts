@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ConcatenateAudioClips : MonoBehaviour
 {
+    //This is current only set up to work using audioClips[0] as reference for length between concatenations, not accounting for 
+    //difference in lenghts between clips if you desire a more dynamic, sample accurate concatenation method
+    
     [SerializeField] private AudioClip[] audioClips;
     [SerializeField] private AudioSource[] audioSource;
     private int randomIndex;
@@ -11,7 +14,7 @@ public class ConcatenateAudioClips : MonoBehaviour
     private int toggle;
     private double clipLength;
     private double nextStartTime;
-
+    
     // Start is called before the first frame update
     void Start()
     {
