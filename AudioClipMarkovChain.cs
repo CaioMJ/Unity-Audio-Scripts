@@ -4,10 +4,13 @@ using UnityEngine;
 
 //HOW TO USE THIS:
 //1) Fill up the Audio Clips array with the desired files in the inspector
+
 //2) Declare the values for the probabilities array in the inspector:
     //a) The number of Input Note elements should be the equal to how many audio clips you're using
     //b) The number of Output Note elements inside each Input Note element should also be equal to how many audio clips you're using
     //c) The value set for each Output Note element is the probability (between 0 and 1) that element will be generated for each Input Note element
+    //d) the sum of all elements for each Output Note array should be equal to 1
+
 //3) Call RunMarkovChain() to play the next audio clip from the array according to the defined probabilities
     //a) I set it on Update() so you can press 'm' and run it for testing purposes
 
