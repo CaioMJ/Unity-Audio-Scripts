@@ -9,6 +9,7 @@ using UnityEngine;
     //b) The number of Output Note elements inside each Input Note element should also be equal to how many audio clips you're using
     //c) The value set for each Output Note element is the probability (between 0 and 1) that element will be generated for each Input Note element
 //3) Call RunMarkovChain() to play the next audio clip from the array according to the defined probabilities
+    //a) I set it on Update() so you can press 'm' and run it for testing purposes
 
 [RequireComponent(typeof(AudioSource))]
 public class AudioClipMarkovChain : MonoBehaviour
