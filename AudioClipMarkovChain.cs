@@ -9,7 +9,7 @@ using UnityEngine;
     //a) The number of Input Note elements should be the equal to how many audio clips you're using
     //b) The number of Output Note elements inside each Input Note element should also be equal to how many audio clips you're using
     //c) The value set for each Output Note element is the probability (between 0 and 1) that element's index will be generated for each Input Note element
-    //d) the sum of all elements for each Output Note array should be equal to 1
+    //d) The sum of all elements for each Output Note array should be equal to 1
 
 //3) Call RunMarkovChain() to play the next audio clip from the array according to the defined probabilities
     //a) I set it to call the function when you press 'm' just for testing purposes
