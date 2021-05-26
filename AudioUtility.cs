@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+//Static class with general audio fade and one shot randomization methods
 public static class AudioUtility
 {
 	
