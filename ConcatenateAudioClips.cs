@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script concatenates audio clips from an array in a sample accurate manner. The audio clip array can be played both randomly or sequentially.
 public class ConcatenateAudioClips : MonoBehaviour
 {
     [Header("AUDIO REFERENCES")]
     [SerializeField] private AudioClip[] audioClips;
-    [SerializeField] private AudioSource[] audioSource;
+    [SerializeField] private AudioSource[] audioSource; //Array with 2 audio sources
     [Space]
     [Header("CONCATENATION PROPERTIES")]
     [SerializeField] private bool playClipsRandomly;
-    [SerializeField] private bool getLengthDynamically;
+    [SerializeField] private bool getLengthDynamically; //If true, the next clip will play back immediately at the end of the previous clip. If false, the length index 0 of the audio clip array will serve as a fixed interval between playbacks
     private int index, lastIndex;
     private int toggle;
 
