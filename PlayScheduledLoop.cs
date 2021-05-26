@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script uses AudioSource.PlayScheduled() in order to loop audio with a reverb tail
 public class PlayScheduledLoop : MonoBehaviour
 {
     [SerializeField] private AudioSource[] audioSource; //array with 2 audio sources
 
-    private double loopDuration; //This variable should hold the exact value in seconds (to the smallest possible decimal)for the loop's duration
+    [SerializeField] private double loopDuration; //This variable should hold the exact value in seconds (to the smallest possible decimal) for the loop's duration
     private double nextLoopStart;
 
     private bool canGetDspTime = true;
@@ -37,7 +38,7 @@ public class PlayScheduledLoop : MonoBehaviour
     {
         isLooping = false;
         canGetDspTime = true;
-        //INSERT FADE OUT OR AUDIO SOURCE STOP METHODD HERE IF NEEDED
+        //CALL A FADE OUT OR AUDIO SOURCE STOP METHODD HERE IF NEEDED
     }
     
     private void GetCurrentDspTime()
