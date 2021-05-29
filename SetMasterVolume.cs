@@ -11,7 +11,8 @@ public class SetMasterVolume : MonoBehaviour
     {
         slider.value = PlayerPrefs.GetFloat("AudioVolume");
     }
-
+    
+    //Call this function on the slider's On Value Changged event
     public void SetLevel(float sliderValue)
     {
         audioMixer.SetFloat("MasterVolume", Mathf.Log10(sliderValue) * 20);
