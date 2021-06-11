@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//What this script does?
+//This script uses a Markov chain (which is basically an aleatoric generator where the output is dependent on its input) to play audio clips randomly form an array.
+//The original intent was to make it so the clips in the array are samples of individual notes and have this script generate a melody aleatorically through the Markov chain.
+//It works by defining probabilities for each output that are dependent on the input. What this means is that you can make it so (for example) the next note after a G4 
+//has a 50% chance of being D4, 25% of being a F#4, 25% of being an A4 and 0% of being a C4
+
 //HOW TO USE THIS:
 //1) Fill up the Audio Clips array with the desired files in the inspector
 

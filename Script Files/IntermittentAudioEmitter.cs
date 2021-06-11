@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Plays audio clips randomly from an array as one shots, with random volume and random times between each audio clip
 public class IntermittentAudioEmitter : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
