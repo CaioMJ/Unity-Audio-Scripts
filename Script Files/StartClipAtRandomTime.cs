@@ -6,13 +6,19 @@ public class StartClipAtRandomTime : MonoBehaviour
 {
     private AudioClip aClip;
     private AudioSource aSource;
+    [SerializeField] private bool playOnAwake;
 
-    // Start is called before the first frame update
     void Awake()
     {
         aSource = GetComponent<AudioSource>();
+        
+        if(playOnAwake)
+            Play();
+    }
+    
+    public void Play()
+    {
         aClip = aSource.clip;
-
         aSource.time = Random.Range(0, aClip.length);
         aSource.Play();
     }
