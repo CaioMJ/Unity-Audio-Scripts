@@ -30,7 +30,29 @@ public class ConcatenateAudioClips : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Initialize();
+        if (playOnStart)
+        Play();
+    }
+    
+    // Update is called once per frame
+    void Update()
+    {
+        if (canPlay)
+        {
+            if (canGetDspTime)
+            GetCurrentDspTime();
+            if (AudioSettings.dspTime > nextStartTime - 0.1f)
+            ConcatenateClips();
+        }
+        
+        //TEST INPUT
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (canPlay)
+            Stop();
+            else
+            Play();
+        }
     }
     
     private void Initialize()
@@ -47,25 +69,11 @@ public class ConcatenateAudioClips : MonoBehaviour
         clipLength = (double)audioClips[index].samples / audioClips[index].frequency;
         else
         clipLength = (double)audioClips[0].samples / audioClips[0].frequency;
-        
-        if (playOnStart)
-        Play();
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        if (canPlay)
-        {
-            if (canGetDspTime)
-            GetCurrentDspTime();
-            if (AudioSettings.dspTime > nextStartTime - 0.1f)
-            ConcatenateClips();
-        }
     }
     
     public void Play()
     {
+        Initialize();
         canPlay = true;
         canGetDspTime = true;
     }
