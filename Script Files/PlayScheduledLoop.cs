@@ -31,13 +31,13 @@ public class PlayScheduledLoop : MonoBehaviour
     public void StartLoop() //Call this function to play audio
     {
         isLooping = true;
+        canGetDspTime = true;
         print("START PLAY SCHEDULED LOOP");
     }
     
     public void StopLoop() //This will only stop subsequent loops from hapenning, this won't immediately stop audio
     {
         isLooping = false;
-        canGetDspTime = true;
         //CALL A FADE OUT OR AUDIO SOURCE STOP METHODD HERE IF NEEDED
     }
     
