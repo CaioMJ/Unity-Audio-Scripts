@@ -31,7 +31,7 @@ public class ConcatenateAudioClips : MonoBehaviour
     void Start()
     {
         if (playOnStart)
-        Play();
+            Play();
     }
     
     // Update is called once per frame
@@ -40,35 +40,35 @@ public class ConcatenateAudioClips : MonoBehaviour
         if (canPlay)
         {
             if (canGetDspTime)
-            GetCurrentDspTime();
+                GetCurrentDspTime();
             if (AudioSettings.dspTime > nextStartTime - 0.1f)
-            ConcatenateClips();
+                ConcatenateClips();
         }
         
         //TEST INPUT
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (canPlay)
-            Stop();
+                Stop();
             else
-            Play();
+                Play();
         }
     }
     
     private void Initialize()
     {
         foreach (AudioSource source in audioSource)
-        source.volume = volume;
+            source.volume = volume;
         
         if (playClipsRandomly)
-        index = UnityEngine.Random.Range(0, audioClips.Length);
+            index = UnityEngine.Random.Range(0, audioClips.Length);
         else
-        index = 0;
+            index = 0;
         
         if (getLengthDynamically)
-        clipLength = (double)audioClips[index].samples / audioClips[index].frequency;
+            clipLength = (double)audioClips[index].samples / audioClips[index].frequency;
         else
-        clipLength = (double)audioClips[0].samples / audioClips[0].frequency;
+            clipLength = (double)audioClips[0].samples / audioClips[0].frequency;
     }
     
     public void Play()
@@ -119,9 +119,9 @@ public class ConcatenateAudioClips : MonoBehaviour
     private void GenerateNewIndex()
     {
         if (playClipsRandomly)
-        RandomIndex();
+            RandomIndex();
         else
-        SequentialIndex();
+            SequentialIndex();
     }
     
     private void RandomIndex()
@@ -136,9 +136,9 @@ public class ConcatenateAudioClips : MonoBehaviour
     private void SequentialIndex()
     {
         if (index != audioClips.Length - 1)
-        index++;
+            index++;
         else
-        index = 0;
+            index = 0;
     }
     
     private void GetNewClipLength()
