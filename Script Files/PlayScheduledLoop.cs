@@ -5,57 +5,65 @@ using UnityEngine;
 //This script uses AudioSource.PlayScheduled() in order to loop audio with a reverb tail
 public class PlayScheduledLoop : MonoBehaviour
 {
-    [SerializeField] private AudioSource[] audioSource; //array with 2 audio sources
-
+    [SerializeField] private AudioSource[] audioSources; //array with 2 audio sources
+    [SerializeField] private AudioClip audioClip;
     [SerializeField] private double loopDuration; //This variable should hold the exact value in seconds (to the smallest possible decimal) for the loop's duration
+    [SerializeField] [Range(0f, 1f)] private float volume;
+    [SerializeField] private bool playOnAwake;
+   
     private double nextLoopStart;
-
-    private bool canGetDspTime = true;
-    private bool isLooping;
+    private bool canPlay;
     private int arrayToggle;
+
+    void Awake()
+    {
+        if (playOnAwake)
+            Play();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (isLooping)
+        if (canPlay)
         {
-            GetCurrentDspTime();
-
             if (AudioSettings.dspTime > nextLoopStart - 0.1)
-            {
                 ConcatenateLoop();
-            }
         }
     }
 
-    public void StartLoop() //Call this function to play audio
+    private void Initialize()
     {
-        isLooping = true;
-        canGetDspTime = true;
-        print("START PLAY SCHEDULED LOOP");
+        foreach(AudioSource aSource in audioSources)
+        {
+            aSource.clip = audioClip;
+            aSource.volume = volume; //OR SWAP THIS LINE FOR A FADE IN METHOD
+        }
+    }
+
+    public void Play() //Call this function to play audio
+    {
+        Initialize();
+        canPlay = true;
+        nextLoopStart = AudioSettings.dspTime + 0.1;
+        print("START LOOP FOR " + audioClip);
     }
     
     public void StopLoop() //This will only stop subsequent loops from hapenning, this won't immediately stop audio
     {
-        isLooping = false;
-        //CALL A FADE OUT OR AUDIO SOURCE STOP METHODD HERE IF NEEDED
-    }
-    
-    private void GetCurrentDspTime()
-    {
-        if (canGetDspTime)
+        canPlay = false;
+
+        foreach(AudioSource aSource in audioSources)
         {
-            nextLoopStart = AudioSettings.dspTime + 0.1;
-            canGetDspTime = false;
+            //CALL A FADE OUT OR AUDIO SOURCE STOP METHODD HERE IF NEEDED
         }
     }
-
+    
     private void ConcatenateLoop()
     {
         arrayToggle = 1 - arrayToggle;
 
-        audioSource[arrayToggle].PlayScheduled(nextLoopStart);
+        audioSources[arrayToggle].PlayScheduled(nextLoopStart);
         nextLoopStart += loopDuration;
-        print("LOOP POINT");
+        print("LOOP POINT FOR " + audioClip);
     }
 }

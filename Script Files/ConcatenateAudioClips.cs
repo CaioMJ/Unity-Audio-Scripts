@@ -39,8 +39,6 @@ public class ConcatenateAudioClips : MonoBehaviour
     {
         if (canPlay)
         {
-            if (canGetDspTime)
-                GetCurrentDspTime();
             if (AudioSettings.dspTime > nextStartTime - 0.1f)
                 ConcatenateClips();
         }
@@ -74,14 +72,8 @@ public class ConcatenateAudioClips : MonoBehaviour
     public void Play()
     {
         Initialize();
-        canPlay = true;
-        canGetDspTime = true;
-    }
-    
-    private void GetCurrentDspTime()
-    {
         nextStartTime = AudioSettings.dspTime + 0.1f;
-        canGetDspTime = false;
+        canPlay = true;
     }
     
     public void Stop()

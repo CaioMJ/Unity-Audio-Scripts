@@ -16,7 +16,7 @@ public class PlaySfxOneShot : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlaySFXWithRandomization()
+    public void PlaySfxWithRandomization()
     {
         AudioUtility.PlayOneShotWithRandomization(audioSource, sfx, minVol, maxVol, minPitch, maxPitch);
     }
