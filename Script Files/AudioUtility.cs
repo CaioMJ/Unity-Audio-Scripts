@@ -6,7 +6,6 @@ using UnityEngine.Audio;
 //Static class with general audio fade and one shot randomization methods
 public static class AudioUtility
 {
-	
 	public static IEnumerator FadeMixerGroup(AudioMixer audioMixer, string exposedParam, float duration, float targetVolume)
 	{
 		float currentTime = 0;
@@ -42,7 +41,7 @@ public static class AudioUtility
 		yield break;
 	}	
 	
-	public static IEnumerator FadeInAudioSource(AudioSource audioSource, float duration, float targetVolume)
+	public static IEnumerator FadeAudioSource(AudioSource audioSource, float duration, float targetVolume)
 	{
 		audioSource.volume = 0;
 		float currentTime = 0;
@@ -51,21 +50,6 @@ public static class AudioUtility
 		{
 			currentTime += Time.deltaTime;
 			audioSource.volume = Mathf.Lerp(0, targetVolume, currentTime / duration);
-
-			yield return null;
-		}
-		yield break;
-	}
-
-	public static IEnumerator FadeOutAudioSource(AudioSource audioSource, float duration)
-	{
-		float currentTime = 0;
-		float startVolume = audioSource.volume;
-
-		while (currentTime < duration)
-		{
-			currentTime += Time.deltaTime;
-			audioSource.volume = Mathf.Lerp(startVolume, 0, currentTime / duration);
 
 			yield return null;
 		}
