@@ -9,7 +9,7 @@ public class TwoDimensionalFloatArray : ScriptableObject
     [System.Serializable]
     public struct rowData
     {
-        public float[] outputNote;
+        public float[] output;
     }
-    public rowData[] inputNote = new rowData[10];
+    public rowData[] input = new rowData[10];
 }
