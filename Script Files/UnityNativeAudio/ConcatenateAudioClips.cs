@@ -6,6 +6,8 @@ using UnityEngine;
 //This script concatenates audio clips from an array in a sample accurate manner. The audio clip array can be played both randomly or sequentially.
 public class ConcatenateAudioClips : MonoBehaviour
 {
+    private enum ConcatenationInterval { UpdateDynamically, FixedAtIndex0, SetOnInspector};
+
     [Header("AUDIO REFERENCES")]
     [SerializeField] private AudioClip[] audioClips;
     [SerializeField] private AudioSource[] audioSource; //Array with 2 audio sources
@@ -16,16 +18,15 @@ public class ConcatenateAudioClips : MonoBehaviour
     [Range(0f, 1f)] [SerializeField] private float volume;
     [Header("CONCATENATION PROPERTIES")]
     [SerializeField] private bool playClipsRandomly;
-    [SerializeField] private bool getLengthDynamically; //If false, the interval between concatenations will always be the exact length of audioClips[0]. If true, the interval between concatenations will be updated dynamically with each clip's length.
-    [SerializeField] private bool setLengthOnInspector;
-    [SerializeField] private double length;
+    [SerializeField] private ConcatenationInterval concatenationInterval;
+    [SerializeField] private double intervalOnInspector;
     [SerializeField] private bool playOnStart;
     
     private bool canGetDspTime, canPlay;
     private int index, lastIndex;
     private int toggle;
     
-    private double clipLength, nextStartTime;
+    private double interval, nextStartTime;
     
     // Start is called before the first frame update
     void Start()
@@ -62,11 +63,13 @@ public class ConcatenateAudioClips : MonoBehaviour
             index = UnityEngine.Random.Range(0, audioClips.Length);
         else
             index = 0;
-        
-        if (getLengthDynamically)
-            clipLength = (double)audioClips[index].samples / audioClips[index].frequency;
-        else
-            clipLength = (double)audioClips[0].samples / audioClips[0].frequency;
+
+        if (concatenationInterval == ConcatenationInterval.UpdateDynamically)
+            interval = (double)audioClips[index].samples / audioClips[index].frequency;
+        else if (concatenationInterval == ConcatenationInterval.FixedAtIndex0)
+            interval = (double)audioClips[0].samples / audioClips[0].frequency;
+        else if (concatenationInterval == ConcatenationInterval.SetOnInspector)
+            interval = intervalOnInspector;
     }
     
     public void Play()
@@ -99,13 +102,10 @@ public class ConcatenateAudioClips : MonoBehaviour
     
     private void UpdateNextStartTime()
     {
-        if (getLengthDynamically)
-        GetNewClipLength();
-        
-        if (!setLengthOnInspector)
-        nextStartTime += clipLength;
-        else
-        nextStartTime += length;
+        if (concatenationInterval == ConcatenationInterval.UpdateDynamically)
+            GetNewClipLength();
+
+        nextStartTime += interval;
     }
     
     private void GenerateNewIndex()
@@ -135,6 +135,6 @@ public class ConcatenateAudioClips : MonoBehaviour
     
     private void GetNewClipLength()
     {
-        clipLength = (double)audioClips[index].samples / audioClips[index].frequency;
+        interval = (double)audioClips[index].samples / audioClips[index].frequency;
     }
 }
