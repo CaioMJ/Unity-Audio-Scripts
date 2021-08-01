@@ -18,26 +18,6 @@ public class FMOD_BusControl : MonoBehaviour
         print(path);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            //SetVolume(-40f);
-            StopAllEvents();
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            Pause();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            UnPause();
-        }
-
-    }
-
     // Update is called once per frame
     public void SetVolume(float volume)
     {

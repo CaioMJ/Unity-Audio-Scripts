@@ -22,6 +22,16 @@ public class FMOD_SetParameterValue : MonoBehaviour
         print("PARAMETER: " + parameterName + " VALUE: " + value);
     }
 
+    public void SetValue(float value)
+    {
+        if (!isLocal)
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName(parameterName, value);
+        else
+            instance.eventInstance.setParameterByName(parameterName, value);
+
+        print("PARAMETER: " + parameterName + " VALUE: " + value);
+    }
+
     public void SetValue(int value)
     {
         if (!isLocal)
@@ -34,8 +44,8 @@ public class FMOD_SetParameterValue : MonoBehaviour
 }
 
 
- #if UNITY_EDITOR
- [CustomEditor(typeof(FMOD_SetParameterValue))]
+#if UNITY_EDITOR
+[CustomEditor(typeof(FMOD_SetParameterValue))]
 public class FMOD_SetParameterValue_Editor : Editor
 {
     public override void OnInspectorGUI()

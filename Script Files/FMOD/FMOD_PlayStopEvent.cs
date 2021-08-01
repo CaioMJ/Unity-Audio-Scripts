@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class FMOD_PlayStopEvent : MonoBehaviour
 {
     [FMODUnity.EventRef][SerializeField] private string eventPath;
-    [SerializeField] private bool is3D, stopImmediately, playOnAwake;
+    [SerializeField] private bool playOnAwake, stopImmediately;
+    public bool is3D;
+    [HideInInspector] public GameObject objectToAttach;
 
     public FMOD.Studio.EventInstance eventInstance;
     private FMOD.Studio.PLAYBACK_STATE state;
@@ -26,10 +32,10 @@ public class FMOD_PlayStopEvent : MonoBehaviour
             eventInstance.start();
 
             if (is3D)
-                FMODUnity.RuntimeManager.AttachInstanceToGameObject(eventInstance, GetComponent<Transform>(),
-                    GetComponent<Rigidbody>());
+                FMODUnity.RuntimeManager.AttachInstanceToGameObject(eventInstance, objectToAttach.transform,
+                    objectToAttach.GetComponent<Rigidbody>());
 
-            print("PLAY: " + eventInstance);
+            print("PLAY: " + eventPath);
         }
     }
 
@@ -42,6 +48,25 @@ public class FMOD_PlayStopEvent : MonoBehaviour
 
         eventInstance.release();
 
-        print("STOP: " + eventInstance);
+        print("STOP: " + eventPath);
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(FMOD_PlayStopEvent))]
+public class FMOD_PlayStopEvent_Editor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector(); // for other non-HideInInspector fields
+
+        FMOD_PlayStopEvent script = (FMOD_PlayStopEvent)target;
+
+        if (script.is3D) // if bool is true, show other fields
+        {
+            script.objectToAttach = EditorGUILayout.ObjectField("Object To Attach", script.objectToAttach, typeof(GameObject), true) as GameObject;
+        }
+    }
+}
+#endif
+
