@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Audio/Markov chain probabilities")]
 [System.Serializable]
-public class TwoDimensionalFloatArray : ScriptableObject
+public class TwoDimensionalFloatArraySO : ScriptableObject
 {
     [System.Serializable]
     public struct rowData

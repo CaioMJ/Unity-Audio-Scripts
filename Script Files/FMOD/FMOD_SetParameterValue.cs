@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class FMOD_SetParameterValue : MonoBehaviour
 {
     [SerializeField] private string parameterName;
-    [SerializeField] private bool isLocal;
-    [SerializeField] private FMOD_PlayStopEvent instance;
+    public bool isLocal;
+    [HideInInspector] public FMOD_PlayStopEvent instance;
 
     public void SetValue(float value, bool ignoreSeekSpeed)
     {
@@ -28,3 +32,23 @@ public class FMOD_SetParameterValue : MonoBehaviour
         print("PARAMETER: " + parameterName + " VALUE: " + value);
     }
 }
+
+
+ #if UNITY_EDITOR
+ [CustomEditor(typeof(FMOD_SetParameterValue))]
+public class FMOD_SetParameterValue_Editor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector(); // for other non-HideInInspector fields
+
+        FMOD_SetParameterValue script = (FMOD_SetParameterValue)target;
+
+        if (script.isLocal) // if bool is true, show other fields
+        {
+            script.instance = EditorGUILayout.ObjectField("Event Instance", script.instance, typeof(FMOD_PlayStopEvent), true) as FMOD_PlayStopEvent;
+        }
+    }
+}
+#endif
+
