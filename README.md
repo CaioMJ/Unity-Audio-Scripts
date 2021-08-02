@@ -1,7 +1,7 @@
 # Unity-Audio-Scripts
 Hello,
 
-This is a collection scripts I use for implementing audio in Unity.
+This is a collection scripts I use for implementing audio in Unity. I routinely use these scripts in my work and I think other people might also find it useful. Also this is pretty much an ever going work in progress, with me constantly tweaking and addding scripts as the need arises.
 
 The **"Unity Native Audio"** folder contains scripts for generic dynamic audio systems using the native audio engine from Unity. It's separated in two other folders: 
 
