@@ -14,7 +14,7 @@ public class AudioConcatenation : MonoBehaviour
     [SerializeField] private AudioSource[] audioSources; //Array with 2 audio sources
     [Space]
     [Header("CONCATENATION PROPERTIES")]
-    [SerializeField] private bool playOnAwake;
+    [SerializeField] private PlayOnAwakeMethod playOnAwake = PlayOnAwakeMethod.No;
     public ConcatenationInterval concatenationInterval;
     [HideInInspector] public double intervalOnInspector;
 
@@ -22,14 +22,18 @@ public class AudioConcatenation : MonoBehaviour
     private int toggle;
     private double interval, nextStartTime, dspTimeOffset = 0.1;
 
-    public enum ConcatenationInterval { UpdateDynamically, FixedAtIndex0, SetOnInspector };
+    public enum ConcatenationInterval { UpdateDynamically, FixedAtIndex0, SetOnInspector }
+    private enum PlayOnAwakeMethod { No, PlayWithNoFade, PlayWithFade }
+
 
     // Start is called before the first frame update
     void Awake()
     {
         Initialize();
 
-        if (playOnAwake)
+        if (playOnAwake == PlayOnAwakeMethod.PlayWithNoFade)
+            Play(false);
+        else if (playOnAwake == PlayOnAwakeMethod.PlayWithFade)
             Play(true);
     }
 
@@ -57,7 +61,6 @@ public class AudioConcatenation : MonoBehaviour
 
         audioSources[toggle].clip = cue.GetNextClip();
         audioSources[toggle].pitch = Random.Range(cue.MinPitch, cue.MaxPitch);
-        audioSources[toggle].volume = Random.Range(cue.MinVolume, cue.MaxVolume);
         audioSources[toggle].PlayScheduled(nextStartTime);
 
         print("CONCATENATE: " + audioSources[toggle].clip + " on " + gameObject.name);
@@ -97,11 +100,6 @@ public class AudioConcatenation : MonoBehaviour
 
         if (fadeIn)
             FadeIn();
-        else
-        {
-            foreach (AudioSource aSource in audioSources)
-                aSource.volume = cue.Volume;
-        }
 
         isPlaying = true;
         nextStartTime = AudioSettings.dspTime + dspTimeOffset;
@@ -115,7 +113,6 @@ public class AudioConcatenation : MonoBehaviour
 
         if (fadeOut)
         {
-            StartCoroutine(StopLoopAfterFadeOut());
             FadeOut();
         }
         else
@@ -128,11 +125,6 @@ public class AudioConcatenation : MonoBehaviour
         print("STOP: " + gameObject.name);
     }
 
-    private IEnumerator StopLoopAfterFadeOut()
-    {
-        yield return new WaitForSeconds(cue.fadeOutTime);
-        isPlaying = false;
-    }
     #endregion
 
     #region Fades
@@ -149,10 +141,17 @@ public class AudioConcatenation : MonoBehaviour
 
     public void FadeOut()
     {
+        StartCoroutine(StopLoopAfterFadeOut());
         foreach (AudioSource aSource in audioSources)
             StartCoroutine(AudioUtility.FadeOutAndStopAudioSource(aSource, cue.fadeOutTime));
 
         print("FADE OUT: " + gameObject.name);
+    }
+
+    private IEnumerator StopLoopAfterFadeOut()
+    {
+        yield return new WaitForSeconds(cue.fadeOutTime);
+        isPlaying = false;
     }
     #endregion
 }

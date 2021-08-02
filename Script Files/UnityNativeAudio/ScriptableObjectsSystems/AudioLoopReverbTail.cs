@@ -5,13 +5,20 @@ public class AudioLoopReverbTail : MonoBehaviour
 {
     [SerializeField] private AudioConfigurationSO config;
     [SerializeField] private AudioClipCueSO cue;
-    [SerializeField] private bool playOnAwake;
     [SerializeField] private AudioSource[] audioSources; //Array with 2 audio sources
+    [SerializeField] private PlayOnAwakeMethod playOnAwake = PlayOnAwakeMethod.No;
 
     private double dspTimeOffset = 0.1f;
     private double nextLoopStart;
     private bool isLooping = false;
     private int toggle;
+
+    private enum PlayOnAwakeMethod
+    {
+        No,
+        PlayWithNoFade,
+        PlayWithFade,
+    }
 
     private void OnValidate()
     {
@@ -20,7 +27,9 @@ public class AudioLoopReverbTail : MonoBehaviour
 
     void Awake()
     {
-        if (playOnAwake)
+        if (playOnAwake == PlayOnAwakeMethod.PlayWithNoFade)
+            Play(false);
+        else if (playOnAwake == PlayOnAwakeMethod.PlayWithFade)
             Play(true);
     }
 
@@ -69,11 +78,6 @@ public class AudioLoopReverbTail : MonoBehaviour
 
         if (fadeIn)
             FadeIn();
-        else
-        {
-            foreach (AudioSource aSource in audioSources)
-                aSource.volume = cue.Volume;
-        }
 
         isLooping = true;
         nextLoopStart = AudioSettings.dspTime + dspTimeOffset;

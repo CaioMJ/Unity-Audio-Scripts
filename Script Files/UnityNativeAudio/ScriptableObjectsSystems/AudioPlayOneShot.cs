@@ -36,6 +36,7 @@ public class AudioPlayOneShot : MonoBehaviour
     {
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
+
         config.SetupAudioSource(audioSource);
         cue.Initialize(audioSource);
     }
