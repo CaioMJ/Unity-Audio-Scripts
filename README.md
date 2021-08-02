@@ -1,7 +1,14 @@
 # Unity-Audio-Scripts
 Hello,
 
-This is a collection C# scripts I use for implementing audio in Unity either using Unity's native audio engine or FMOD. I'm frequently adding and tweaking things here.
-Feel free to use the stuff from here on any project you want.
+Collection scripts I use for implementing audio in Unity either.
 
-Enjoy and le tme know if you ahve any questions on how to use these scripts.
+The **"Unity Native Audio"** folder contains scripts for generic dynamic audio systems. It's separated in two other folders: 
+
+**Scriptable Objects Systems** - a collection of Monobehaviours systems that makes use of the AudioClipCueSO and AudioConfigurationSO Scriptable Objects to hold data for audio clips and audio source settings. These scripts offer the implementation of generic systems to do things like play one shots with pitch randomization, play audio clips intermittently between random times, concatenate random audio clips with sample accuracy, and loop music with reverb tails. **Almost all of these scripts call functions form the AudioUtility script**, so you should either copy that class to your project or refactor my scripts if you already have a similar class.
+
+**General Scripts** - offers the same types of systems as the Scriptable Objects Systems but all references to data are stored in the Monobehaviours themselves. Albeit less modular and a little less robust, these scripts are more straightforward to use than their counterparts.
+
+The **"FMOD** folder contains scripts for doing simple implementation when using FMOD, like playing one shots, start and stopping events, changing parameter values, and some basic bus control.
+
+**Feel free to use any of these scripts in any project, commercial or not.**
