@@ -9,6 +9,6 @@ The **"Unity Native Audio"** folder contains scripts for generic dynamic audio s
 
 **General Scripts** - offers the same types of systems as the Scriptable Objects Systems but all references to data are stored in the Monobehaviours themselves. Albeit less modular and less robust, these scripts are more straightforward to use.
 
-The **"FMOD** folder contains scripts for doing simple implementation when using the FMOD integration in Unity, like playing one shots, start and stopping events, changing parameter values, and some basic bus control.
+The **"FMOD"** folder contains scripts for doing simple implementation when using the FMOD integration in Unity, like playing one shots, start and stopping events, changing parameter values, and some basic bus control.
 
 **Feel free to use any of these scripts in any project, commercial or not.**
