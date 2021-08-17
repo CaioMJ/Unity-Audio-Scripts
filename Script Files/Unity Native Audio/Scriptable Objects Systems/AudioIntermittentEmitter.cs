@@ -14,12 +14,13 @@ public class AudioIntermittentEmitter : MonoBehaviour
     private AudioSource audioSource;
 
     [Header("Intermittent Properties")]
-    [SerializeField] private bool playOnAwake;
     [Range(0f, 30f)]
     public float minTime;
     [Range(0f, 30f)]
     public float maxTime;
-    public bool randomEmitterPosition;
+    [SerializeField] private bool playOnAwake;
+
+    public bool randomPosition;
     [HideInInspector] public Transform listenerPosition;
     [HideInInspector] public Vector3 maxDistanceDivisor;
     private bool enablePlay;
@@ -88,11 +89,11 @@ public class AudioIntermittentEmitter : MonoBehaviour
 
     private void PlaySound()
     {
-        if (randomEmitterPosition)
+        if (randomPosition)
             RandomizePosition();
 
-        audioSource.volume = Random.Range(cue.MinVolume, cue.MaxVolume);
-        audioSource.pitch = Random.Range(cue.MinPitch, cue.MaxPitch);
+        audioSource.volume = cue.RandomVolume(); //Random.Range(cue.MinVolume, cue.MaxVolume);
+        audioSource.pitch = cue.RandomPitch(); //Random.Range(cue.MinPitch, cue.MaxPitch);
         audioSource.clip = cue.GetNextClip();
         audioSource.Play();
         StartCoroutine("IntermittentSound");
@@ -129,7 +130,7 @@ public class AudioIntermitternEmiter_Editor : Editor
 
         AudioIntermittentEmitter script = (AudioIntermittentEmitter)target;
 
-        if (script.randomEmitterPosition) // if bool is true, show other fields
+        if (script.randomPosition) // if bool is true, show other fields
         {
             script.listenerPosition = EditorGUILayout.ObjectField("Listener Position", script.listenerPosition, typeof(Transform), true) as Transform;
             script.maxDistanceDivisor = EditorGUILayout.Vector3Field("Max Distance Divisor", script.maxDistanceDivisor);

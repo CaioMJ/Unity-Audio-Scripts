@@ -15,7 +15,6 @@ public class AudioClipCueSO : ScriptableObject
 	[Range(0, 3f)] public float PositivePitchVariation = 0f;
 	[Range(-1f, 0f)] public float NegativeVolumeVariation = 0f;
 	[Range(0f, 1f)] public float PositiveVolumeVariation = 0f;
-	[HideInInspector] public float MinPitch, MaxPitch, MinVolume, MaxVolume;
 	[HideInInspector] public int lastIndex, nextIndex;
 
 	[Header("Loop Properties")]
@@ -32,6 +31,13 @@ public class AudioClipCueSO : ScriptableObject
 		Random,
 		RandomNoImmediateRepeat,
 		Sequential,
+	}
+
+	public void Initialize(AudioSource audioSource) //Call after setting up the AudioSourceConfigurationSO
+	{
+		audioSource.volume = Volume;
+		audioSource.pitch = Pitch;
+		audioSource.loop = loop;
 	}
 
 	public AudioClip GetNextClip()
@@ -72,17 +78,15 @@ public class AudioClipCueSO : ScriptableObject
 		return audioClips[nextIndex];
 	}
 
-	#region Setup
-	public void Initialize(AudioSource audioSource) //Call after setting up the AudioSourceConfigurationSO
-	{
-		audioSource.volume = Volume;
-		audioSource.pitch = Pitch;
-		audioSource.loop = loop;
+	public float RandomPitch()
+    {
+		float randomPitch = Random.Range(Pitch + NegativePitchVariation, Pitch + PositivePitchVariation);
+		return randomPitch;
+    }
 
-		MinPitch = Pitch + NegativePitchVariation;
-		MaxPitch = Pitch + PositivePitchVariation;
-		MinVolume = Volume + NegativeVolumeVariation;
-		MaxVolume = Volume + PositiveVolumeVariation;
-	}
-    #endregion
+	public float RandomVolume()
+    {
+		float randomVolume = Random.Range(Volume + NegativeVolumeVariation, Volume + PositiveVolumeVariation);
+		return randomVolume;
+	}   
 }

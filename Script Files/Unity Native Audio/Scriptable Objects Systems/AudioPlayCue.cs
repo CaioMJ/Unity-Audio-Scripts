@@ -10,8 +10,8 @@ public class AudioPlayCue : MonoBehaviour
     private AudioSource audioSource;
 
     [Header("Properties")]
-    [SerializeField] private bool randomStartTime;
     [SerializeField] private PlayOnAwakeMethod playOnAwake = PlayOnAwakeMethod.No;
+    [SerializeField] private bool startOnRandomTime;
 
     private enum PlayOnAwakeMethod
     {
@@ -46,8 +46,8 @@ public class AudioPlayCue : MonoBehaviour
         audioSource.clip = cue.GetNextClip();
         audioSource.Play();
 
-        if (randomStartTime)
-            AudioUtility.SetAudioSourceTimeRandom(audioSource, audioSource.clip);
+        if (startOnRandomTime)
+            SetRandomTime();
 
         if (fadeIn)
             FadeIn();
@@ -60,7 +60,7 @@ public class AudioPlayCue : MonoBehaviour
         if (!audioSource.isPlaying) { return; }
 
         if (fadeOut)
-            FadeOut();
+            FadeOutAndStop();
         else
             audioSource.Stop();
 
@@ -78,13 +78,33 @@ public class AudioPlayCue : MonoBehaviour
     public void FadeOut()
     {
         StartCoroutine(AudioUtility.FadeAudioSource(audioSource, cue.fadeOutTime, 0));
-        StartCoroutine(StopAfterFadeOut());
     }
 
-    private IEnumerator StopAfterFadeOut()
+    public void FadeOutAndStop()
     {
-        yield return new WaitForSeconds(cue.fadeOutTime);
-        audioSource.Stop();
+        StartCoroutine(AudioUtility.FadeOutAndStopAudioSource(audioSource, cue.fadeOutTime));
+    }
+    #endregion
+
+    #region Set Audio Source Time
+    public void SetRandomTime()
+    {
+        AudioUtility.SetAudioSourceTimeRandom(audioSource, audioSource.clip);
+    }
+
+    public void SetTimeWithPercentage(float audioClipPercentage)
+    {
+        AudioUtility.SetAudioSourceTimePercentage(audioSource, audioSource.clip, audioClipPercentage);
+    }
+
+    public void SetTimeWithSeconds(float audioSourceTime)
+    {
+        AudioUtility.SetAudioSourceTimeAbsolute(audioSource, audioSourceTime);
+    }
+
+    public void CheckLoopPoint()
+    {
+        AudioUtility.SetAudioSourceTimePercentage(audioSource, audioSource.clip, 90f);
     }
     #endregion
 }

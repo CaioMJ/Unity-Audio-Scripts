@@ -64,17 +64,19 @@ public class AudioPlayOneShot : MonoBehaviour
 
     private void VolumeRandomization()
     {
-        audioSource.PlayOneShot(cue.GetNextClip(), Random.Range(cue.MinVolume, cue.MaxVolume));
+        audioSource.PlayOneShot(cue.GetNextClip(), cue.RandomVolume());
     }
 
     private void PitchRandomization()
     {
-        AudioUtility.PlayOneShotWithRandomization(audioSource, cue.GetNextClip(), cue.Volume, cue.Volume, cue.MinPitch, cue.MaxPitch);
+        audioSource.pitch = cue.RandomPitch();
+        audioSource.PlayOneShot(cue.GetNextClip());
     }
 
     private void PitchAndVolumeRandomization()
     {
-        AudioUtility.PlayOneShotWithRandomization(audioSource, cue.GetNextClip(), cue.MinVolume, cue.MaxVolume, cue.MinPitch, cue.MaxPitch);
+        audioSource.pitch = cue.RandomPitch();
+        audioSource.PlayOneShot(cue.GetNextClip(), cue.RandomVolume());
     }
     #endregion
 }

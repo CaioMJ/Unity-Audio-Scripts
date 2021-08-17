@@ -60,7 +60,7 @@ public class AudioConcatenation : MonoBehaviour
         toggle = 1 - toggle;
 
         audioSources[toggle].clip = cue.GetNextClip();
-        audioSources[toggle].pitch = Random.Range(cue.MinPitch, cue.MaxPitch);
+        audioSources[toggle].pitch = cue.RandomPitch();
         audioSources[toggle].PlayScheduled(nextStartTime);
 
         print("CONCATENATE: " + audioSources[toggle].clip + " on " + gameObject.name);
