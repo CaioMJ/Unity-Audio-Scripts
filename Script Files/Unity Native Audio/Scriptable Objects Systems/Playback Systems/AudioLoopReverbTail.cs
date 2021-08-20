@@ -47,6 +47,7 @@ public class AudioLoopReverbTail : MonoBehaviour
     {
         toggle = 1 - toggle;
 
+        audioSources[toggle].clip = cue.GetNextClip();
         audioSources[toggle].PlayScheduled(nextLoopStart);
         IncrementNextLoopStart();
 
@@ -66,7 +67,7 @@ public class AudioLoopReverbTail : MonoBehaviour
         {
             config.SetupAudioSource(aSource);
             cue.Initialize(aSource);
-            aSource.clip = cue.GetNextClip();
+            //aSource.clip = cue.GetNextClip();
         }
     }
 

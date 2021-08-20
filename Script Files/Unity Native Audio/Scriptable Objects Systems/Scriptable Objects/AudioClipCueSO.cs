@@ -26,14 +26,18 @@ public class AudioClipCueSO : ScriptableObject
 	public int timeSigUpper;
 	public int timeSigLower;
 
+	[Header("Markov Chain")]
+	public TwoDimensionalFloatArraySO markovChainProbabilities;
+
 	public enum SequenceMode
 	{
 		Random,
 		RandomNoImmediateRepeat,
 		Sequential,
+		MarkovChain
 	}
 
-	public void Initialize(AudioSource audioSource) //Call after setting up the AudioSourceConfigurationSO
+	public void Initialize(AudioSource audioSource)
 	{
 		audioSource.volume = Volume;
 		audioSource.pitch = Pitch;
@@ -70,6 +74,10 @@ public class AudioClipCueSO : ScriptableObject
 				case SequenceMode.Sequential:
 					nextIndex = (int)Mathf.Repeat(++nextIndex, audioClips.Length);
 					break;
+
+				case SequenceMode.MarkovChain:
+					nextIndex = MarkovChainIndex(lastIndex);
+					break;
 			}
 		}
 
@@ -78,6 +86,20 @@ public class AudioClipCueSO : ScriptableObject
 		return audioClips[nextIndex];
 	}
 
+	private int MarkovChainIndex(int previousIndex)
+	{
+		float probability = Random.Range(0f, 1f);
+		int nextIndex = 0;
+		float accumulator = markovChainProbabilities.input[previousIndex].output[nextIndex];
+
+		while (accumulator < probability)
+		{
+			nextIndex++;
+			accumulator += markovChainProbabilities.input[previousIndex].output[nextIndex];
+		}
+
+		return nextIndex;
+	}
 	public float RandomPitch()
     {
 		float randomPitch = Random.Range(Pitch + NegativePitchVariation, Pitch + PositivePitchVariation);
