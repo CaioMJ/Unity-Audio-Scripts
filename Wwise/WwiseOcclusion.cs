@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class WwiseOcclusion : MonoBehaviour
 {
-    [SerializeField] private LayerMask layerMask; //Obstacles
-
+    [SerializeField] private LayerMask occlusionObstacleLayerMask; //Obstacles
     private GameObject listener;
 
     // Start is called before the first frame update
@@ -21,13 +20,13 @@ public class WwiseOcclusion : MonoBehaviour
 
         Debug.DrawRay(transform.position, direction);
 
-        if (Physics.Raycast(transform.position, direction, direction.magnitude, layerMask))
+        if (Physics.Raycast(transform.position, direction, direction.magnitude, occlusionObstacleLayerMask))
         {
-            AkSoundEngine.PostEvent("Occlusion_On", this.gameObject);
+            AkSoundEngine.PostEvent("Occlusion_On", gameObject);
         }
         else
         {
-            AkSoundEngine.PostEvent("Occlusion_Off", this.gameObject);
+            AkSoundEngine.PostEvent("Occlusion_Off", gameObject);
         }
     }
 }

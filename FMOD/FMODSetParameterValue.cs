@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-public class FMOD_SetParameterValue : MonoBehaviour
+public class FMODSetParameterValue : MonoBehaviour
 {
     [SerializeField] private string parameterName;
     public bool isLocal;
@@ -52,11 +52,11 @@ public class FMOD_SetParameterValue_Editor : Editor
     {
         DrawDefaultInspector(); // for other non-HideInInspector fields
 
-        FMOD_SetParameterValue script = (FMOD_SetParameterValue)target;
+        FMODSetParameterValue script = (FMODSetParameterValue)target;
 
         if (script.isLocal) // if bool is true, show other fields
         {
-            script.instance = EditorGUILayout.ObjectField("Event Instance", script.instance, typeof(FMOD_PlayStopEvent), true) as FMOD_PlayStopEvent;
+            script.instance = EditorGUILayout.ObjectField("Event Instance", script.instance, typeof(FMODPlayStopEvent), true) as FMODPlayStopEvent;
         }
     }
 }

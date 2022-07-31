@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-public class FMOD_PlayStopEvent : MonoBehaviour
+public class FMODPlayStopEvent : MonoBehaviour
 {
     [FMODUnity.EventRef][SerializeField] private string eventPath;
     [SerializeField] private bool playOnAwake, stopImmediately;
@@ -60,7 +60,7 @@ public class FMOD_PlayStopEvent_Editor : Editor
     {
         DrawDefaultInspector(); // for other non-HideInInspector fields
 
-        FMOD_PlayStopEvent script = (FMOD_PlayStopEvent)target;
+        FMODPlayStopEvent script = (FMODPlayStopEvent)target;
 
         if (script.is3D) // if bool is true, show other fields
         {
